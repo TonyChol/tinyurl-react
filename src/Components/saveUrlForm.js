@@ -3,13 +3,17 @@ import '../App.css';
 import { Button } from 'react-bootstrap';
 import { Grid, Row, Col} from 'react-bootstrap';
 import { FormControl, FormGroup, ControlLabel } from 'react-bootstrap';
+import reqwest from 'reqwest';
+
+const remoteUrl = 'https://api.zhibincai.com/url/create';
 
 class SaveUrlForm extends Component {
     constructor(props) {
         super(props);
         this.state = {
             saving: false,
-            url: ""
+            url: "",
+            shorten: null
         };
     };
     handleInputChange = event => {
@@ -21,6 +25,23 @@ class SaveUrlForm extends Component {
     handleSave = event => {
         this.setState({
             saving: true
+        });
+        let that = this;
+        reqwest({
+            url: remoteUrl
+            , method: 'post'
+            , data: { url: this.state.url }
+            , success: function (resp) {
+                if (resp.success === true) {
+                    let shortenUrl = resp.shorten;
+                    that.setState({
+                        shorten: shortenUrl
+                    });
+                    console.log("Result is: ", shortenUrl);
+                }
+            }, header: {
+                'Content-Type': 'application/json'
+            }
         });
     };
     getValidationState() {
@@ -42,7 +63,7 @@ class SaveUrlForm extends Component {
             <div>
                 <Grid>
                     <Row className="su-form-group">
-                        <Col xs={12} md={8}>
+                        <Col xs={12} >
                             <form>
                                 <FormGroup
                                     controlId="formBasicText"
@@ -64,10 +85,7 @@ class SaveUrlForm extends Component {
                     </Row>
                 </Grid>
 
-                {/*<button className="saveButton" onClick={this.handleSave}>Save</button>*/}
                 <Button bsStyle="primary" onClick={this.handleSave}>Save</Button>
-                <p>Saving: {this.state.saving.toString()}</p>
-                <p>Url: {this.state.url}</p>
             </div>
         );
     }
