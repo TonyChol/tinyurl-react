@@ -5,7 +5,7 @@ import { Grid, Row, Col} from 'react-bootstrap';
 import { FormControl, FormGroup, ControlLabel } from 'react-bootstrap';
 import reqwest from 'reqwest';
 
-const remoteUrl = 'https://api.zhibincai.com/url/create';
+const remoteUrl = 'https://api.zbcai.xyz/url/create';
 // const remoteUrl = 'http://localhost:8080/url/create';
 
 class SaveUrlForm extends Component {
@@ -18,12 +18,14 @@ class SaveUrlForm extends Component {
             typing: false
         };
     };
+
     handleInputChange = event => {
        this.setState({
            url: event.target.value,
            typing: true
        });
     };
+
     handleSave = event => {
         this.setState({
             saving: true,
@@ -47,6 +49,7 @@ class SaveUrlForm extends Component {
             }
         });
     };
+
     getValidationState() {
         const url = this.state.url;
         if (this.validUrl(url) === true) {
@@ -56,10 +59,12 @@ class SaveUrlForm extends Component {
             return 'error';
         }
     };
+
     validUrl(str) {
         let regexp = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
         return regexp.test(str);
     };
+
     render() {
         let inputPlaceHolder = "Type the url you want to save...";
         return (
