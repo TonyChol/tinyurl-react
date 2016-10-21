@@ -6,6 +6,7 @@ import { FormControl, FormGroup, ControlLabel } from 'react-bootstrap';
 import reqwest from 'reqwest';
 
 const remoteUrl = 'https://api.zhibincai.com/url/create';
+// const remoteUrl = 'http://localhost:8080/url/create';
 
 class SaveUrlForm extends Component {
     constructor(props) {
@@ -13,18 +14,20 @@ class SaveUrlForm extends Component {
         this.state = {
             saving: false,
             url: "",
-            shorten: null
+            shorten: "",
+            typing: false
         };
     };
     handleInputChange = event => {
        this.setState({
            url: event.target.value,
-           saving: false
+           typing: true
        });
     };
     handleSave = event => {
         this.setState({
-            saving: true
+            saving: true,
+            typing: false
         });
         let that = this;
         reqwest({
@@ -35,9 +38,9 @@ class SaveUrlForm extends Component {
                 if (resp.success === true) {
                     let shortenUrl = resp.shorten;
                     that.setState({
-                        shorten: shortenUrl
+                        shorten: shortenUrl,
+                        saving: false
                     });
-                    console.log("Result is: ", shortenUrl);
                 }
             }, header: {
                 'Content-Type': 'application/json'
@@ -85,7 +88,19 @@ class SaveUrlForm extends Component {
                     </Row>
                 </Grid>
 
-                <Button bsStyle="primary" onClick={this.handleSave}>Save</Button>
+                <Button bsStyle="primary" onClick={this.handleSave}>
+                    {this.state.saving
+                        ? "Saving..."
+                        : "Save"
+                    }
+                </Button>
+
+                <div>
+                    {(!this.state.saving && this.state.shorten.length > 0 && !this.state.typing)
+                        ? <span>Shorten: <a href={this.state.shorten}>{this.state.shorten}</a></span>
+                        : <span></span>
+                    }
+                </div>
             </div>
         );
     }
