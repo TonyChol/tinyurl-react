@@ -71,7 +71,7 @@ class SaveUrlForm extends Component {
             <div>
                 <Grid>
                     <Row className="su-form-group">
-                        <Col xs={10} >
+                        <Col xs={10} sm={10} md={11} >
                             <form>
                                 <FormGroup
                                     controlId="formBasicText"
@@ -89,20 +89,21 @@ class SaveUrlForm extends Component {
                                 </FormGroup>
                             </form>
                         </Col>
-
-                        <span className="app__form__btn--save--wrapper">
-                                <Button bsStyle="primary" className="app__form__btn--save" onClick={this.handleSave}>
-                                    {this.state.saving
-                                        ? "Saving..."
-                                        : "Save"
-                                    }
-                                </Button>
-                        </span>
+                        <Col xs={2} sm={2} md={1} >
+                            <span className="app__form__btn--save--wrapper">
+                                    <Button bsStyle="primary" className="app__form__btn--save" onClick={this.handleSave}>
+                                        {this.state.saving
+                                            ? "Saving..."
+                                            : "Save"
+                                        }
+                                    </Button>
+                            </span>
+                        </Col>
                     </Row>
                 </Grid>
 
-                
-                <div>
+
+                <div className="app__form__label--result">
                     {(!this.state.saving && this.state.shorten.length > 0 && !this.state.typing)
                         ? <span>It's done! The url is: <a href={this.state.shorten}>{this.state.shorten}</a></span>
                         : <span></span>
