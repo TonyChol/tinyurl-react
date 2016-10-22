@@ -1,24 +1,47 @@
 .App {
   text-align: center;
+  width: 80%;
+  margin: 0 auto;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 80px;
-}
 
 .App-header {
   background-color: #222;
   height: 150px;
-  padding: 20px;
+  padding: 10px;
   color: white;
+}
+
+
+.app-header {
+  margin: 0 auto;
+  text-align: left;
+}
+
+
+.app-title {
+  font-weight: lighter;
+  margin-top: 10px;
 }
 
 .App-intro {
   font-size: large;
 }
 
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+
+.app__form-validator {
+  float: left;
+  font-weight: normal;
+}
+
+.app__form__btn--save--wrapper {
+  float: left;
+  margin-top: 24px;
+}
+
+.app__form__btn--save {
+  -webkit-transition: width 500ms ease-in-out;
+  -moz-transition: width 500ms ease-in-out;
+  -o-transition: width 500ms ease-in-out;
+  transition: width 500ms ease-in-out;
 }

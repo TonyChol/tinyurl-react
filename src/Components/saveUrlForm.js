@@ -71,13 +71,13 @@ class SaveUrlForm extends Component {
             <div>
                 <Grid>
                     <Row className="su-form-group">
-                        <Col xs={12} >
+                        <Col xs={10} >
                             <form>
                                 <FormGroup
                                     controlId="formBasicText"
                                     validationState={this.getValidationState()}
                                 >
-                                    <ControlLabel>{ inputPlaceHolder }</ControlLabel>
+                                    <ControlLabel className="app__form-validator">{ inputPlaceHolder }</ControlLabel>
                                     <FormControl
                                         type="text"
                                         value={this.state.url}
@@ -90,19 +90,21 @@ class SaveUrlForm extends Component {
                             </form>
                         </Col>
 
+                        <span className="app__form__btn--save--wrapper">
+                                <Button bsStyle="primary" className="app__form__btn--save" onClick={this.handleSave}>
+                                    {this.state.saving
+                                        ? "Saving..."
+                                        : "Save"
+                                    }
+                                </Button>
+                        </span>
                     </Row>
                 </Grid>
 
-                <Button bsStyle="primary" onClick={this.handleSave}>
-                    {this.state.saving
-                        ? "Saving..."
-                        : "Save"
-                    }
-                </Button>
-
+                
                 <div>
                     {(!this.state.saving && this.state.shorten.length > 0 && !this.state.typing)
-                        ? <span>Shorten: <a href={this.state.shorten}>{this.state.shorten}</a></span>
+                        ? <span>It's done! The url is: <a href={this.state.shorten}>{this.state.shorten}</a></span>
                         : <span></span>
                     }
                 </div>

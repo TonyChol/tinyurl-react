@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
-import logo from '../logo.svg';
 import '../App.css';
+import {Col} from 'react-bootstrap';
 
 class Header extends Component {
     render() {
         return (
-            <div className="App-header">
-                <img src={logo} className="App-logo" alt="logo" />
-                <h2>Tiny Url</h2>
-            </div>
+            <Col xs={12} className="app-header" >
+                <h2 className="app-title">Tiny Url</h2>
+            </Col>
         );
     }
 }
