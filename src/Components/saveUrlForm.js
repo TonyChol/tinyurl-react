@@ -45,7 +45,7 @@ class SaveUrlForm extends Component {
                     });
                 }
             }, header: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
             }
         });
     };
