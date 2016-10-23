@@ -15,7 +15,8 @@ class SaveUrlForm extends Component {
             saving: false,
             url: "",
             shorten: "",
-            typing: false
+            typing: false,
+            errorMsg: ""
         };
     };
 
@@ -32,6 +33,12 @@ class SaveUrlForm extends Component {
             typing: false
         });
         let that = this;
+        if (this.validUrl(this.state.url) === false) {
+            that.setState({
+                errorMsg: "The url is not valid, please check again."
+            });
+            return;
+        }
         reqwest({
             url: remoteUrl
             , method: 'post'
@@ -41,7 +48,8 @@ class SaveUrlForm extends Component {
                     let shortenUrl = resp.shorten;
                     that.setState({
                         shorten: shortenUrl,
-                        saving: false
+                        saving: false,
+                        errorMsg: ""
                     });
                 }
             }, header: {
@@ -92,7 +100,7 @@ class SaveUrlForm extends Component {
                         <Col xs={2} sm={2} md={1} >
                             <span className="app__form__btn--save--wrapper">
                                     <Button bsStyle="primary" className="app__form__btn--save" onClick={this.handleSave}>
-                                        {this.state.saving
+                                        {(this.state.saving && this.state.errorMsg.length === 0)
                                             ? "Saving..."
                                             : "Save"
                                         }
@@ -104,7 +112,13 @@ class SaveUrlForm extends Component {
 
 
                 <div className="app__form__label--result">
-                    {(!this.state.saving && this.state.shorten.length > 0 && !this.state.typing)
+
+                    {this.state.errorMsg
+                        ? <span>{this.state.errorMsg}</span>
+                        : <span></span>
+                    }
+
+                    {(!this.state.saving && this.state.shorten.length > 0 && !this.state.typing && this.state.errorMsg.length === 0)
                         ? <span>It's done! The url is: <a href={this.state.shorten}>{this.state.shorten}</a></span>
                         : <span></span>
                     }
