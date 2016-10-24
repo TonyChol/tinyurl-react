@@ -1,10 +1,16 @@
+// Vendor
 import React, { Component } from 'react';
-import '../App.css';
 import { Button } from 'react-bootstrap';
 import { Grid, Row, Col} from 'react-bootstrap';
 import { FormControl, FormGroup, ControlLabel } from 'react-bootstrap';
 import reqwest from 'reqwest';
+// Style
+import '../App.css';
+// Helper
+import { debounce } from '../utils/utils'
 
+// ------------------------------------------------------
+// Initialize
 const remoteUrl = 'https://api.zbcai.xyz/url/create';
 // const remoteUrl = 'http://localhost:8080/url/create';
 
@@ -23,7 +29,8 @@ class SaveUrlForm extends Component {
     handleInputChange = event => {
        this.setState({
            url: event.target.value,
-           typing: true
+           typing: true,
+           saving: false
        });
     };
 
@@ -44,23 +51,28 @@ class SaveUrlForm extends Component {
                 return;
             }
         }
-        reqwest({
-            url: remoteUrl
-            , method: 'post'
-            , data: { url: urlToSave }
-            , success: function (resp) {
-                if (resp.success === true) {
-                    let shortenUrl = resp.shorten;
-                    that.setState({
-                        shorten: shortenUrl,
-                        saving: false,
-                        errorMsg: ""
-                    });
+
+        let postUrl = () => {
+            reqwest({
+                url: remoteUrl
+                , method: 'post'
+                , data: { url: urlToSave }
+                , success: function (resp) {
+                    if (resp.success === true) {
+                        let shortenUrl = resp.shorten;
+                        that.setState({
+                            shorten: shortenUrl,
+                            saving: false,
+                            errorMsg: ""
+                        });
+                    }
+                }, header: {
+                    'Content-Type': 'application/json',
                 }
-            }, header: {
-                'Content-Type': 'application/json',
-            }
-        });
+            });
+        };
+
+        postUrl();
     };
 
     getValidationState() {
@@ -103,7 +115,7 @@ class SaveUrlForm extends Component {
                         </Col>
                         <Col xs={2} sm={2} md={1} >
                             <span className="app__form__btn--save--wrapper">
-                                    <Button bsStyle="primary" className="app__form__btn--save" onClick={this.handleSave}>
+                                    <Button bsStyle="primary" className="app__form__btn--save" onClick={this.handleSave} disabled={this.state.saving}>
                                         {(this.state.saving && this.state.errorMsg.length === 0)
                                             ? "Saving..."
                                             : "Save"
