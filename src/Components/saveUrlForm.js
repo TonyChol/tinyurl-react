@@ -33,16 +33,21 @@ class SaveUrlForm extends Component {
             typing: false
         });
         let that = this;
+        let urlToSave = this.state.url;
         if (this.validUrl(this.state.url) === false) {
-            that.setState({
-                errorMsg: "The url is not valid, please check again."
-            });
-            return;
+            if (this.validUrl("http://" + this.state.url) === true) {
+                urlToSave = "http://" + urlToSave;
+            } else {
+                this.setState({
+                    errorMsg: "The url is not valid, please check again."
+                });
+                return;
+            }
         }
         reqwest({
             url: remoteUrl
             , method: 'post'
-            , data: { url: this.state.url }
+            , data: { url: urlToSave }
             , success: function (resp) {
                 if (resp.success === true) {
                     let shortenUrl = resp.shorten;
@@ -62,14 +67,13 @@ class SaveUrlForm extends Component {
         const url = this.state.url;
         if (this.validUrl(url) === true) {
             return 'success';
-        }
-        else {
-            return 'error';
+        } else {
+            return (this.validUrl("http://" + url)? 'success': 'error');
         }
     };
 
     validUrl(str) {
-        let regexp = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
+        let regexp = /^(?:(?:https?|ftp):\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,}))\.?)(?::\d{2,5})?(?:[/?#]\S*)?$/i;
         return regexp.test(str);
     };
 
