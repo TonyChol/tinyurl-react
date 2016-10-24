@@ -7,7 +7,7 @@ import reqwest from 'reqwest';
 // Style
 import '../App.css';
 // Helper
-import { debounce } from '../utils/utils'
+// import { debounce } from '../utils/utils'
 
 // ------------------------------------------------------
 // Initialize
@@ -34,12 +34,31 @@ class SaveUrlForm extends Component {
        });
     };
 
+    postUrl = (url) => {
+        reqwest({
+            url: remoteUrl
+            , method: 'post'
+            , data: { url: url }
+            , success: resp => {
+                if (resp.success === true) {
+                    let shortenUrl = resp.shorten;
+                    this.setState({
+                        shorten: shortenUrl,
+                        saving: false,
+                        errorMsg: ""
+                    });
+                }
+            }, header: {
+                'Content-Type': 'application/json',
+            }
+        });
+    };
+
     handleSave = event => {
         this.setState({
             saving: true,
             typing: false
         });
-        let that = this;
         let urlToSave = this.state.url;
         if (this.validUrl(this.state.url) === false) {
             if (this.validUrl("http://" + this.state.url) === true) {
@@ -52,27 +71,7 @@ class SaveUrlForm extends Component {
             }
         }
 
-        let postUrl = () => {
-            reqwest({
-                url: remoteUrl
-                , method: 'post'
-                , data: { url: urlToSave }
-                , success: function (resp) {
-                    if (resp.success === true) {
-                        let shortenUrl = resp.shorten;
-                        that.setState({
-                            shorten: shortenUrl,
-                            saving: false,
-                            errorMsg: ""
-                        });
-                    }
-                }, header: {
-                    'Content-Type': 'application/json',
-                }
-            });
-        };
-
-        postUrl();
+        this.postUrl(urlToSave);
     };
 
     getValidationState() {
