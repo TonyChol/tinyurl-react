@@ -16,9 +16,12 @@ class App extends Component {
     onSubmitCapturing = event => {
         event.preventDefault();
         const urlToSave = this.refs.urlForm.state.url;
-        this.httpClient.postUrl(urlToSave).then(shorten => {
-            this.refs.urlForm.onSuccessWithShorten(shorten);
-        });
+        const isValid = this.refs.urlForm.state.valid;
+        if (isValid) {
+            this.httpClient.postUrl(urlToSave).then(shorten => {
+                this.refs.urlForm.onSuccessWithShorten(shorten);
+            });
+        }
     };
 
   render() {

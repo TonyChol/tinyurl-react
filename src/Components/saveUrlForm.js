@@ -15,21 +15,26 @@ class SaveUrlForm extends Component {
             url: "",
             shorten: "",
             typing: false,
-            errorMsg: ""
+            errorMsg: "",
+            valid: false
         };
     };
 
     handleInputChange = event => {
         let urlToSave = event.target.value;
+        let isValid = false;
+        if (this.validUrl(urlToSave) === true) { isValid = true; }
         if (this.validUrl(urlToSave) === false) {
             if (this.validUrl("http://" + urlToSave) === true) {
                 urlToSave = "http://" + urlToSave;
+                isValid = true;
             }
         }
        this.setState({
            url: urlToSave,
            typing: true,
-           saving: false
+           saving: false,
+           valid: isValid
        });
     };
 
@@ -51,7 +56,9 @@ class SaveUrlForm extends Component {
 
     handleSubmit = (event) => {
         event.preventDefault();
-        this.handleSaving();
+        if (this.state.valid) {
+            this.handleSaving();
+        }
     };
 
     getValidationState() {
@@ -98,7 +105,7 @@ class SaveUrlForm extends Component {
                                         <Button
                                             bsStyle="primary"
                                             className="app__form__btn--save"
-                                            disabled={this.state.saving}
+                                            disabled={this.state.saving || !this.state.valid}
                                             type="submit"
                                         >
                                             {(this.state.saving && this.state.errorMsg.length === 0)
