@@ -3,16 +3,9 @@ import React, { Component } from 'react';
 import { Button } from 'react-bootstrap';
 import { Grid, Row, Col} from 'react-bootstrap';
 import { FormControl, FormGroup, ControlLabel } from 'react-bootstrap';
-import reqwest from 'reqwest';
+
 // Style
 import '../App.css';
-// Helper
-// import { debounce } from '../utils/utils'
-
-// ------------------------------------------------------
-// Initialize
-const remoteUrl = 'https://api.zbcai.xyz/url/create';
-// const remoteUrl = 'http://localhost:8080/url/create';
 
 class SaveUrlForm extends Component {
     constructor(props) {
@@ -27,57 +20,39 @@ class SaveUrlForm extends Component {
     };
 
     handleInputChange = event => {
+        let urlToSave = event.target.value;
+        if (this.validUrl(urlToSave) === false) {
+            if (this.validUrl("http://" + urlToSave) === true) {
+                urlToSave = "http://" + urlToSave;
+            }
+        }
        this.setState({
-           url: event.target.value,
+           url: urlToSave,
            typing: true,
            saving: false
        });
     };
 
-    postUrl = (url) => {
-        reqwest({
-            url: remoteUrl
-            , method: 'post'
-            , data: { url: url }
-            , success: resp => {
-                if (resp.success === true) {
-                    let shortenUrl = resp.shorten;
-                    this.setState({
-                        shorten: shortenUrl,
-                        saving: false,
-                        errorMsg: ""
-                    });
-                }
-            }, header: {
-                'Content-Type': 'application/json',
-            }
+    onSuccessWithShorten = (shorten) => {
+        this.setState({
+            shorten: shorten,
+            saving: false,
+            typing: false,
+            errorMsg: ""
         });
     };
 
-    handleSave = () => {
+    handleSaving = () => {
         this.setState({
             saving: true,
             typing: false
         });
-        let urlToSave = this.state.url;
-        if (this.validUrl(this.state.url) === false) {
-            if (this.validUrl("http://" + this.state.url) === true) {
-                urlToSave = "http://" + urlToSave;
-            } else {
-                this.setState({
-                    errorMsg: "The url is not valid, please check again."
-                });
-                return;
-            }
-        }
-
-        this.postUrl(urlToSave);
     };
 
     handleSubmit = (event) => {
-        event.preventDefault()
-        this.handleSave()
-    }
+        event.preventDefault();
+        this.handleSaving();
+    };
 
     getValidationState() {
         const url = this.state.url;
@@ -99,34 +74,41 @@ class SaveUrlForm extends Component {
             <div>
                 <Grid>
                     <Row className="su-form-group">
-                        <Col xs={10} sm={10} md={11} >
-                            <form onSubmit={this.handleSubmit}>
-                                <FormGroup
-                                    controlId="formBasicText"
-                                    validationState={this.getValidationState()}
-                                >
-                                    <ControlLabel className="app__form-validator">{ inputPlaceHolder }</ControlLabel>
-                                    <FormControl
-                                        type="text"
-                                        value={this.state.url}
-                                        placeholder="Enter url"
-                                        onChange={this.handleInputChange}
-                                    />
-                                    <FormControl.Feedback />
+                        <form onSubmit={this.handleSubmit}>
+                            <Col xs={10} sm={10} md={11} >
 
-                                </FormGroup>
-                            </form>
-                        </Col>
-                        <Col xs={2} sm={2} md={1} >
-                            <span className="app__form__btn--save--wrapper">
-                                    <Button bsStyle="primary" className="app__form__btn--save" onClick={this.handleSave} disabled={this.state.saving}>
-                                        {(this.state.saving && this.state.errorMsg.length === 0)
-                                            ? "Saving..."
-                                            : "Save"
-                                        }
-                                    </Button>
-                            </span>
-                        </Col>
+                                    <FormGroup
+                                        controlId="formBasicText"
+                                        validationState={this.getValidationState()}
+                                    >
+                                        <ControlLabel className="app__form-validator">{ inputPlaceHolder }</ControlLabel>
+                                        <FormControl
+                                            type="text"
+                                            value={this.state.url}
+                                            placeholder="Enter url"
+                                            onChange={this.handleInputChange}
+                                        />
+                                        <FormControl.Feedback />
+
+                                    </FormGroup>
+                            </Col>
+
+                            <Col xs={2} sm={2} md={1} >
+                                <span className="app__form__btn--save--wrapper">
+                                        <Button
+                                            bsStyle="primary"
+                                            className="app__form__btn--save"
+                                            disabled={this.state.saving}
+                                            type="submit"
+                                        >
+                                            {(this.state.saving && this.state.errorMsg.length === 0)
+                                                ? "Saving..."
+                                                : "Save"
+                                            }
+                                        </Button>
+                                </span>
+                            </Col>
+                        </form>
                     </Row>
                 </Grid>
 
