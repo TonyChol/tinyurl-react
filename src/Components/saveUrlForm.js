@@ -54,7 +54,7 @@ class SaveUrlForm extends Component {
         });
     };
 
-    handleSave = event => {
+    handleSave = () => {
         this.setState({
             saving: true,
             typing: false
@@ -74,6 +74,11 @@ class SaveUrlForm extends Component {
         this.postUrl(urlToSave);
     };
 
+    handleSubmit = (event) => {
+        event.preventDefault()
+        this.handleSave()
+    }
+
     getValidationState() {
         const url = this.state.url;
         if (this.validUrl(url) === true) {
@@ -81,7 +86,7 @@ class SaveUrlForm extends Component {
         } else {
             return (this.validUrl("http://" + url)? 'success': 'error');
         }
-    };
+    }
 
     validUrl(str) {
         let regexp = /^(?:(?:https?|ftp):\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,}))\.?)(?::\d{2,5})?(?:[/?#]\S*)?$/i;
@@ -95,7 +100,7 @@ class SaveUrlForm extends Component {
                 <Grid>
                     <Row className="su-form-group">
                         <Col xs={10} sm={10} md={11} >
-                            <form>
+                            <form onSubmit={this.handleSubmit}>
                                 <FormGroup
                                     controlId="formBasicText"
                                     validationState={this.getValidationState()}
