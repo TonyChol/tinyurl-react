@@ -10,9 +10,8 @@ The backend system is a RESTful service built upon [Restify](http://restify.com/
 
 ## TODO
 
-[ ] Perform Redux support
-
-[ ] Change `reqwest` into `fetch`
+- [ ] Perform Redux support
+- [ ] Change `reqwest` into `fetch`
 
 
 
