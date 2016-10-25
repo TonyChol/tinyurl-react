@@ -7,7 +7,7 @@ class Header extends Component {
             <Grid>
                 <Row>
                     <Col xs={12} className="app-header" >
-                        <h2 className="app-title">Tiny Url</h2>
+                        <h2 className="app-title">Save your url into a shorter one</h2>
                     </Col>
                 </Row>
             </Grid>
