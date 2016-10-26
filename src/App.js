@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import './App.css';
 // Components
 import Header from './Components/Header'
-import SaveUrlForm from './Components/saveUrlForm'
+import UrlForm from './Components/UrlForm'
 
 // Default http client since we are not using Redux(, etc) here.
 import HttpClient from './utils/http'
@@ -28,7 +28,7 @@ class App extends Component {
     return (
       <div className="App" onSubmitCapture={this.onSubmitCapturing}>
           <Header/>
-          <SaveUrlForm ref="urlForm"></SaveUrlForm>
+          <UrlForm ref="urlForm"></UrlForm>
       </div>
     );
   }

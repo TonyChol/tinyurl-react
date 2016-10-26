@@ -7,7 +7,7 @@ import { FormControl, FormGroup, ControlLabel } from 'react-bootstrap';
 // Style
 import '../App.css';
 
-class SaveUrlForm extends Component {
+class UrlForm extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -137,4 +137,4 @@ class SaveUrlForm extends Component {
     }
 }
 
-export default SaveUrlForm
+export default UrlForm
