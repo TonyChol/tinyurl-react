@@ -76,13 +76,13 @@ class UrlForm extends Component {
     };
 
     render() {
-        let inputPlaceHolder = "Type the url you want to save...";
+        let inputPlaceHolder = "Just enter a long url";
         return (
             <div>
                 <Grid>
                     <Row className="su-form-group">
                         <form onSubmit={this.handleSubmit}>
-                            <Col xs={10} sm={10} md={11} >
+                            <Col xs={8} sm={10} md={11} >
 
                                     <FormGroup
                                         controlId="formBasicText"
