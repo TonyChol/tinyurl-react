@@ -48,6 +48,11 @@ body {
   margin-top: 10px;
 }
 
+.app-footer {
+  font-size: 15px;
+  color: rgba(136, 136, 136, 0.7);
+}
+
 .App-intro {
   font-size: large;
 }

@@ -4,6 +4,7 @@ import './App.css';
 // Components
 import Header from './Components/Header'
 import UrlForm from './Components/UrlForm'
+import Footer from './Components/Footer'
 
 // Default http client since we are not using Redux(, etc) here.
 import HttpClient from './utils/http'
@@ -29,6 +30,7 @@ class App extends Component {
       <div className="App" onSubmitCapture={this.onSubmitCapturing}>
           <Header/>
           <UrlForm ref="urlForm"></UrlForm>
+          <Footer/>
       </div>
     );
   }
