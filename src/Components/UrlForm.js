@@ -57,7 +57,8 @@ class UrlForm extends Component {
     handleSubmit = (event) => {
         event.preventDefault();
         if (this.state.valid) {
-            this.handleSaving();
+            console.log(this.props);
+            this.props.onFetchClick(this.state.url);
         }
     };
 
@@ -127,7 +128,12 @@ class UrlForm extends Component {
                         : <span></span>
                     }
 
-                    {(!this.state.saving && this.state.shorten.length > 0 && !this.state.typing && this.state.errorMsg.length === 0)
+                    {(
+                        !this.state.saving &&
+                        this.state.shorten.length > 0 &&
+                        !this.state.typing &&
+                        this.state.errorMsg.length === 0
+                     )
                         ? <span>It's done! The url is: <a href={this.state.shorten}>{this.state.shorten}</a></span>
                         : <span></span>
                     }
