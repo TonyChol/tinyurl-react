@@ -26,7 +26,7 @@ The build is minified and the filenames include the hashes.
 
 ## TODO
 
-- [ ] Perform Redux support
+- [x] Perform Redux support
 - [ ] Change `reqwest` into `fetch`
 
 
