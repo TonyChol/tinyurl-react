@@ -9,6 +9,7 @@ const logger = (store) => (next) => (action) => {
     next(action);
 };
 
-const middleware = applyMiddleware(thunk, logger)
+// const middleware = applyMiddleware(thunk, logger);
+const middleware = applyMiddleware(thunk);
 
 export default createStore(reducer, middleware)

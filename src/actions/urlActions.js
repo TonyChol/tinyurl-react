@@ -13,7 +13,10 @@ export const fetchUrl = (url) => {
         httpClient.postUrl(url).then(shortenUrl => {
             dispatch({
                 type: "FETCH_SHORTEN_SUCCESS",
-                payload: shortenUrl
+                payload: {
+                    shorten: shortenUrl,
+                    url: url
+                }
             });
         });
     }

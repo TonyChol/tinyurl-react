@@ -7,6 +7,9 @@ import { FormControl, FormGroup, ControlLabel } from 'react-bootstrap';
 // Style
 import '../App.css';
 
+// Utils
+import { validUrl } from '../utils/utils'
+
 class UrlForm extends Component {
     constructor(props) {
         super(props);
@@ -23,9 +26,9 @@ class UrlForm extends Component {
     handleInputChange = event => {
         let urlToSave = event.target.value;
         let isValid = false;
-        if (this.validUrl(urlToSave) === true) { isValid = true; }
-        if (this.validUrl(urlToSave) === false) {
-            if (this.validUrl("http://" + urlToSave) === true) {
+        if (validUrl(urlToSave) === true) { isValid = true; }
+        if (validUrl(urlToSave) === false) {
+            if (validUrl("http://" + urlToSave) === true) {
                 urlToSave = "http://" + urlToSave;
                 isValid = true;
             }
@@ -47,9 +50,8 @@ class UrlForm extends Component {
         });
     };
 
-    handleSaving = () => {
+    handleSavingState = () => {
         this.setState({
-            saving: true,
             typing: false
         });
     };
@@ -57,24 +59,19 @@ class UrlForm extends Component {
     handleSubmit = (event) => {
         event.preventDefault();
         if (this.state.valid) {
-            console.log(this.props);
+            this.handleSavingState();
             this.props.onFetchClick(this.state.url);
         }
     };
 
     getValidationState() {
         const url = this.state.url;
-        if (this.validUrl(url) === true) {
+        if (validUrl(url) === true) {
             return 'success';
         } else {
-            return (this.validUrl("http://" + url)? 'success': 'error');
+            return (validUrl("http://" + url)? 'success': 'error');
         }
     }
-
-    validUrl(str) {
-        let regexp = /^(?:(?:https?|ftp):\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,}))\.?)(?::\d{2,5})?(?:[/?#]\S*)?$/i;
-        return regexp.test(str);
-    };
 
     render() {
         let inputPlaceHolder = "Just enter a long url";
@@ -109,7 +106,7 @@ class UrlForm extends Component {
                                             disabled={this.state.saving || !this.state.valid}
                                             type="submit"
                                         >
-                                            {(this.state.saving && this.state.errorMsg.length === 0)
+                                            {(this.props.fetching && this.state.errorMsg.length === 0)
                                                 ? "Saving..."
                                                 : "Save"
                                             }
@@ -129,12 +126,12 @@ class UrlForm extends Component {
                     }
 
                     {(
-                        !this.state.saving &&
-                        this.state.shorten.length > 0 &&
+                        !this.props.fetching &&
+                        this.props.shorten.length > 0 &&
                         !this.state.typing &&
-                        this.state.errorMsg.length === 0
+                        !this.props.error
                      )
-                        ? <span>It's done! The url is: <a href={this.state.shorten}>{this.state.shorten}</a></span>
+                        ? <span>It's done! The url is: <a href={this.props.shorten}>{this.props.shorten}</a></span>
                         : <span></span>
                     }
                 </div>

@@ -30,7 +30,8 @@ const reducer = function(state = initialState, action) {
                 ...state,
                 fetching: false,
                 fetched: true,
-                shorten: action.payload
+                shorten: action.payload.shorten,
+                url: action.payload.url
             }
             break;
         }
