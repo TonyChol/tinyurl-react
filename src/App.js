@@ -2,9 +2,10 @@
 import React, { Component } from 'react';
 import './App.css';
 // Components
-import Header from './Components/Header'
+import Header from './components/Header'
+import Footer from './components/Footer'
+// Containers
 import URlFormWrapper from './containers/UrlFormWrapper'
-import Footer from './Components/Footer'
 
 class App extends Component {
 

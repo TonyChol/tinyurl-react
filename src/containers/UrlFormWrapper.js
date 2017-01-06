@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import { fetchUrl } from '../actions/urlActions'
-import UrlForm from '../Components/UrlForm'
+import UrlForm from '../components/UrlForm'
 
 const mapStateToProps = (state) => {
     return {

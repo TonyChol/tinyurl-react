@@ -15,7 +15,6 @@ const reducer = function(state = initialState, action) {
                 ...state,
                 fetching: true
             }
-            break;
         }
         case "FETCH_SHORTEN_ERROR": {
             return {
@@ -23,7 +22,6 @@ const reducer = function(state = initialState, action) {
                 fetching: false,
                 error: action.payload
             }
-            break;
         }
         case "FETCH_SHORTEN_SUCCESS": {
             return {
@@ -33,11 +31,9 @@ const reducer = function(state = initialState, action) {
                 shorten: action.payload.shorten,
                 url: action.payload.url
             }
-            break;
         }
         default:
             return state;
-            break;
     }
 };
 
